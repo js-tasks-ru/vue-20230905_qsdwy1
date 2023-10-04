@@ -41,7 +41,7 @@ export default defineComponent({
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
         <time :datetime="new Date(date).toLocaleDateString('en-ca')">
-          {{getDate}}
+          {{ getDate }}
         </time>
       </li>
     </ul>`,
