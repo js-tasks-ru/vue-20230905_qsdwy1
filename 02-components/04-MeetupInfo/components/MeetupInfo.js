@@ -24,7 +24,7 @@ export default defineComponent({
         month: 'long',
         day: 'numeric',
       }
-      return dateOfOrganization.toLocaleDateString(navigator.language,options);
+      return dateOfOrganization.toLocaleDateString("en",options);
     }    
   },
 
