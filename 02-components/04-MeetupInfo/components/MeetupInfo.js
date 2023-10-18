@@ -25,7 +25,16 @@ export default defineComponent({
         day: 'numeric',
       }
       return dateOfOrganization.toLocaleDateString(navigator.language,options);
-    }    
+    },
+    getDateForDateTime(){
+      let d = new Date(this.date);
+      let options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }
+      return d.toLocaleDateString('en-GB',options).split('/').reverse().join('-');
+    }
   },
 
   template: `
@@ -40,7 +49,7 @@ export default defineComponent({
       </li>
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-        <time :datetime="getDate">
+        <time :datetime="getDateForDateTime">
           {{ getDate }}
         </time>
       </li>
