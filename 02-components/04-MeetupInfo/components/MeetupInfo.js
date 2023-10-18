@@ -17,7 +17,7 @@ export default defineComponent({
     }
   },
   computed:{
-    getDate(){
+    dateWithLocal(){
       let dateOfOrganization = new Date(this.date);
       let options = {
         year: 'numeric',
@@ -26,14 +26,8 @@ export default defineComponent({
       }
       return dateOfOrganization.toLocaleDateString(navigator.language,options);
     },
-    getDateForDateTime(){
-      let d = new Date(this.date);
-      let options = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      }
-      return d.toLocaleDateString('en-GB',options).split('/').reverse().join('-');
+    dateForDateTime(){
+      return new Date(this.date).toISOString().substring(0,10);
     }
   },
 
@@ -41,16 +35,16 @@ export default defineComponent({
     <ul class="meetup-info">
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-user.svg" />
-        {{organizer}}
+        {{ organizer }}
       </li>
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-map.svg" />
-        {{place}}
+        {{ place }}
       </li>
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-        <time :datetime="getDateForDateTime">
-          {{ getDate }}
+        <time :datetime="dateForDateTime">
+          {{ dateWithLocal }}
         </time>
       </li>
     </ul>`,

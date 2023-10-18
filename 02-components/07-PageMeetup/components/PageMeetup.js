@@ -23,18 +23,21 @@ export default defineComponent({
     return {
       statusRequest: null,
       meetup: null,
+      errorMessage: null
     }
   },
 
   methods:{
     loadMeetup(){
+      this.error =
       this.meetup = null //эта строчка для сокрытия текущего митапа, чтобы v-if был false и компонента MeetupView не отображалась во время нового запроса
       this.statusRequest = 'loading'; 
       fetchMeetupById(this.meetupId).then((meetup)=>{
         this.meetup = meetup;
         this.statusRequest = null;
-      }).catch(()=>{
+      }).catch((e)=>{
         this.statusRequest = 'error';
+        this.errorMessage = e.message
       })
     }
   },
@@ -58,7 +61,7 @@ export default defineComponent({
       </UiContainer>
 
       <UiContainer v-if="statusRequest == 'error'">
-        <UiAlert>Test Error</UiAlert> <!-- вместо 'error' указал 'Test Error' чтобы тест прошел -->
+        <UiAlert>{{ errorMessage }}</UiAlert>
       </UiContainer>
     </div>`,
 });
