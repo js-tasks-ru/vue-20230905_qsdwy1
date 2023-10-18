@@ -24,7 +24,7 @@ export default defineComponent({
         month: 'long',
         day: 'numeric',
       }
-      return dateOfOrganization.toLocaleDateString("ru",options);
+      return dateOfOrganization.toLocaleDateString("en-US",options);
     }    
   },
 
