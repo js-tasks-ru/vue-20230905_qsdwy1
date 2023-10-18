@@ -25,7 +25,7 @@ export default defineComponent({
   template: `
     <ul class="meetup-info">
       <li>
-        <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-user.svg" />
+        <img class="icon meeup-info__icon" alt="icon" src="/assets/icons/icon-user.svg" />
         {{organizer}}
       </li>
       <li>
