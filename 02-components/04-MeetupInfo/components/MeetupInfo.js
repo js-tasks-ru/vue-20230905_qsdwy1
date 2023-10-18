@@ -19,9 +19,15 @@ export default defineComponent({
   computed:{
     getDate(){
       let dateOfOrganization = new Date(this.date);
-      return dateOfOrganization.toLocaleDateString(navigator.language);
+      let options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }
+      return dateOfOrganization.toLocaleDateString(navigator.language,options);
     }    
   },
+
   template: `
     <ul class="meetup-info">
       <li>
