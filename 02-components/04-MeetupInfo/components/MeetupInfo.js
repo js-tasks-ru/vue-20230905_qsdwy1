@@ -24,7 +24,7 @@ export default defineComponent({
         month: 'long',
         day: 'numeric',
       }
-      return dateOfOrganization.toLocaleDateString("en-US",options);
+      return dateOfOrganization.toLocaleDateString(navigator.language,options);
     }    
   },
 
@@ -40,7 +40,7 @@ export default defineComponent({
       </li>
       <li>
         <img class="icon meetup-info__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-        <time :datetime="new Date(date).toLocaleDateString('en-ca')">
+        <time :datetime="getDate">
           {{ getDate }}
         </time>
       </li>
