@@ -1,6 +1,6 @@
 <template>
   <div class="toasts">
-    <Toast 
+    <UiToast 
       v-for="toast in toasts"
       :id="toast.id"
       :type="toast.type"
@@ -8,18 +8,18 @@
     >
       <UiIcon class="toast__icon" :icon="toast.icon" />
       <span>{{ toast.message }}</span>
-    </Toast>
+    </UiToast>
   </div>
 </template>
 
 <script>
-import Toast from './Toast.vue';
+import UiToast from './UiToast.vue';
 import UiIcon from './UiIcon.vue';
 
 export default {
   name: 'TheToaster',
   components: {
-    Toast,
+    UiToast,
     UiIcon,
   },
 
