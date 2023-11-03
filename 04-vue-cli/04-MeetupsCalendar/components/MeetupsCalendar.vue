@@ -1,174 +1,167 @@
 <template>
   <div class="calendar-view">
-    <div class="calendar-view__controls">
+  <div class="calendar-view__controls">
       <div class="calendar-view__controls-inner">
-        <button class="calendar-view__control-left" type="button" aria-label="Previous month"></button>
-        <div class="calendar-view__date">Декабрь 2022 г.</div>
-        <button class="calendar-view__control-right" type="button" aria-label="Next month"></button>
+        <button class="calendar-view__control-left" type="button" aria-label="Previous month" @click="setPrevMonth()"></button>
+        <div class="calendar-view__date">{{ localDate }}</div>
+        <button class="calendar-view__control-right" type="button" aria-label="Next month" @click="setNextMonth()"></button>
       </div>
     </div>
-
-    <div class="calendar-view__grid">
-      <div class="calendar-view__cell calendar-view__cell_inactive" tabindex="0">
-        <div class="calendar-view__cell-day">28</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell calendar-view__cell_inactive" tabindex="0">
-        <div class="calendar-view__cell-day">29</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell calendar-view__cell_inactive" tabindex="0">
-        <div class="calendar-view__cell-day">30</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">1</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">2</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">3</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">4</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <!-- -->
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">5</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">6</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">7</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">8</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">9</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">10</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">11</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <!-- -->
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">12</div>
+  <div  class="calendar-view__grid" v-for="week in getCalendar()">
+    <div class="calendar-view__cell" tabindex="0" v-for="day in week" :class="{'calendar-view__cell_inactive': day.isAnotherMonth}">
+        <div class="calendar-view__cell-day">{{ day.date.getDate() }}</div>
         <div class="calendar-view__cell-content">
-          <a href="/meetups/1" class="calendar-event">Meetup 1</a>
-          <a href="/meetups/2" class="calendar-event">Meetup 2</a>
+          <a :href="'/meetups/' + meetup.id" class="calendar-event" v-for="meetup in getMeetupsForDay(day.date.getTime())">{{ meetup.title }}</a>
         </div>
       </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">13</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">14</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">15</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">16</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">17</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">18</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <!-- -->
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">19</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">20</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">21</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">22</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">23</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">24</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">25</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <!-- -->
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">26</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">27</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">28</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">29</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">30</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell" tabindex="0">
-        <div class="calendar-view__cell-day">31</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-      <div class="calendar-view__cell calendar-view__cell_inactive" tabindex="0">
-        <div class="calendar-view__cell-day">1</div>
-        <div class="calendar-view__cell-content"></div>
-      </div>
-    </div>
   </div>
+</div>
+
 </template>
 
 <script>
+
 export default {
   name: 'MeetupsCalendar',
-
   props: {
     meetups: {
       type: Array,
       required: true,
     },
+  },
+  data(){
+    return {
+      currentDate: new Date(),
+    }
+  },
+  computed:{
+    currentYear(){
+      return this.currentDate.getFullYear()
+    },
+
+    currentMonth(){
+      return this.currentDate.getMonth()
+    },
+
+    currentDay(){
+      return this.currentDate.getDate()
+    },
+
+    lastDayInCurrentMonth(){
+      return new Date(this.currentYear, this.currentMonth + 1, 0).getDate()
+    },
+
+    localDate(){
+      return this.currentDate.toLocaleDateString(navigator.language,{
+        month: 'long',
+        year: 'numeric',
+      });
+    }
+  },
+
+  methods:{
+    getCalendar(){
+      let day = 1;
+      let calendar = [];
+
+      while(day < this.lastDayInCurrentMonth){
+        let week = this.createWeekForDay(day);
+        calendar.push(week);
+
+        day = week[week.length-1].date.getDate() + 1;
+
+        //если в недели есть последний день месяца и это не первая неделя месяца - выйти из цикла
+        if(calendar.length > 1 && week.find(d=>d.date.getDate()===this.lastDayInCurrentMonth)){
+          break;
+        }
+
+      }
+      return calendar;
+    },
+
+    getIndexDayInWeek(day){
+      return new Date(this.currentYear,this.currentMonth,day).getDay();
+    },
+
+    createWeekForDay(day){
+      let week = [{
+        // number: day,
+        isAnotherMonth: false,
+        date: new Date(this.currentYear, this.currentMonth, day),
+      }];
+      let indexDayInWeekToLeft = this.getIndexDayInWeek(day) == 0 ? 6 : this.getIndexDayInWeek(day) - 1; //если day == 0(воскресенье)
+      let indexDayInWeekToRight = this.getIndexDayInWeek(day) + 1;
+
+      let dayToLeft = day;
+      let dayToRight = day;
+
+      //получить дни недели слева от указанного дня
+      while(indexDayInWeekToLeft > 0){
+        --dayToLeft
+        
+        if(dayToLeft > 0){
+          week.unshift({
+            isAnotherMonth: false,
+            date: new Date(this.currentYear, this.currentMonth, dayToLeft),
+          });
+
+        //если после декремента день становится 0 или отрицательный
+        } else{
+          week.unshift({
+            isAnotherMonth: true,
+            date: new Date(this.currentYear, this.currentMonth, dayToLeft),
+          });
+        }
+        
+        --indexDayInWeekToLeft;
+      }
+
+      //получить дни недели справа от указанного дня      
+      while(indexDayInWeekToRight <= 7){
+        ++dayToRight
+
+        if(dayToRight <= this.lastDayInCurrentMonth){
+          week.push({
+            isAnotherMonth: false,
+            date: new Date(this.currentYear, this.currentMonth, dayToRight),
+          });
+
+        //если после инкремента день становится больше самого большого дня в месяце
+        } else{
+          week.push({
+            isAnotherMonth: true,
+            date: new Date(this.currentYear, this.currentMonth, dayToRight),
+          });
+        }
+
+        ++indexDayInWeekToRight;
+      }
+      return week;
+
+    },
+
+    setPrevMonth(){
+      this.currentDate = new Date(this.currentDate.getFullYear(),this.currentDate.getMonth()-1);
+    },
+
+    setNextMonth(){
+      this.currentDate = new Date(this.currentDate.getFullYear(),this.currentDate.getMonth()+1);
+    },
+
+    //получить все митапы на определенный день
+    getMeetupsForDay(dayTimestomp){
+      let meetupsForDay = this.meetups.filter(m=>this.isMeetupAndDayHaveSameDate(m.date,dayTimestomp))
+      return meetupsForDay;
+    },
+
+    isMeetupAndDayHaveSameDate(meetupTimestomp, dayTimestomp){
+      let meetupDate = new Date(meetupTimestomp);
+      let dayDate = new Date(dayTimestomp);
+
+      return meetupDate.getFullYear() == dayDate.getFullYear() &&
+             meetupDate.getMonth() == dayDate.getMonth() &&
+             meetupDate.getDate() == dayDate.getDate();
+    }
   },
 };
 </script>
