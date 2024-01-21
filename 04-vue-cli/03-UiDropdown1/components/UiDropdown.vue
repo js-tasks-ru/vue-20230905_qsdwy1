@@ -1,30 +1,115 @@
 <template>
-  <div class="dropdown dropdown_opened">
-    <button type="button" class="dropdown__toggle dropdown__toggle_icon">
-      <UiIcon icon="tv" class="dropdown__icon" />
-      <span>Title</span>
+  <div class="dropdown " :class="{dropdown_opened: dropDownIsOpen}">
+    <button type="button" class="dropdown__toggle"
+      :class="{dropdown__toggle_icon: optionsHaveIcon}"
+      @click="toggleDropDown"
+
+    >
+      <UiIcon 
+        v-if="currentIcon"
+        :icon="currentIcon"
+        class="dropdown__icon"
+      />
+
+      <span>{{ currentText }}</span>
     </button>
 
-    <div class="dropdown__menu" role="listbox">
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <UiIcon icon="tv" class="dropdown__icon" />
-        Option 1
+    <div v-show="dropDownIsOpen" class="dropdown__menu" role="listbox">
+      <button class="dropdown__item" role="option" type="button"
+        v-for="option in options"
+        :class="{dropdown__item_icon:optionsHaveIcon}"
+        @click="setValue(option.value)"
+      >
+        <UiIcon
+          v-if="option.icon"
+          :icon="option.icon"
+          class="dropdown__icon"
+        />
+        {{ option.text }}
       </button>
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <UiIcon icon="tv" class="dropdown__icon" />
-        Option 2
-      </button>
+     
     </div>
   </div>
 </template>
 
 <script>
+import { handleError } from 'vue';
 import UiIcon from './UiIcon.vue';
 
 export default {
   name: 'UiDropdown',
-
   components: { UiIcon },
+
+  props:{
+    modelValue:{
+      type: String,
+    },
+    options: {
+      type: Array,
+      require: true,
+    },    
+    title:{
+      type: String,
+      require: true,
+    }
+  },
+  emits:['update:modelValue'],
+
+  data(){
+    return {
+      dropDownIsOpen: false,
+    }
+  },
+
+  computed:{
+    currentText(){
+      return this.modelValue ? this.options.find(o=>o.value == this.modelValue).text : this.title;
+    },
+
+    currentIcon(){
+      return this.modelValue ? this.options.find(o=>o.value == this.modelValue).icon : this.options[0]?.icon;
+    },
+
+    optionsHaveIcon(){
+      return this.options.find(o=>o.icon)
+    }
+  },
+
+  watch:{
+    options:{
+      //отслеживание уменьшения списка меню
+      handler(value){
+        //если список пустой или был удален выбранный элемент...
+        if(value.length == 0 || value.find(option => option.value === this.modelValue) === undefined) {
+          this.setValue();
+        };
+      },
+      deep:true
+    }
+  },
+
+  methods:{
+    toggleDropDown(){
+      if(this.dropDownIsOpen)
+        this.closeDropDown();
+      else
+        this.openDropDown()
+    },
+
+    setValue(value){
+      this.$emit('update:modelValue',value);
+      this.closeDropDown()
+    },
+
+    closeDropDown(){
+      this.dropDownIsOpen = false;
+    },
+
+    openDropDown(){
+      this.dropDownIsOpen = true;
+    }
+    
+  },
 };
 </script>
 
